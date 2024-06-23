@@ -1,0 +1,33 @@
+# Virtual Environment
+venv/
+env/
+.venv/
+.vscode/
+.idea/
+
+# Environment Files
+.env
+.env.local
+.env.*.local
+.env.test
+.env.production
+.env.local
+
+# Logs
+logs/
+*.log
+*.log.*
+*.log-*
+*.log?*
+
+# Python / Pipenv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+
+# Misc
+docker-compose-old.yml

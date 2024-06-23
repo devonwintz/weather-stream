@@ -1,0 +1,76 @@
+version: '3.1'
+
+services:
+  weather_mocker:
+    env_file: .env
+    build:
+      context: ./weather-mocker
+    container_name: weather_mocker
+    ports:
+      - "${WEATHER_MOCKER_PORT}:${WEATHER_MOCKER_PORT}"
+  zookeeper:
+    env_file: .env
+    image: bitnami/zookeeper
+    container_name: zookeeper
+    ports:
+      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    env_file: .env
+    image: bitnami/kafka
+    container_name: kafka
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:${KAFKA_PORT}
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST}
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=${ZOOKEEPER_HOST}
+  # cassandra-node1:
+  #   env_file: .env
+  #   image: bitnami/cassandra
+  #   container_name: cassandra_node1
+  #   ports:
+  #     - "${CASSANDRA_PORT}:${CASSANDRA_PORT}"
+  #   volumes:
+  #     - cassandra-data:/bitnami/cassandra
+  #   environment:
+  #     - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME}
+  #     - CASSANDRA_DATACENTER=${CASSANDRA_DATACENTER}
+  #     - CASSANDRA_USER=${CASSANDRA_USER}
+  #     - CASSANDRA_PASSWORD=${CASSANDRA_PW}
+  kafka-create-topic:
+    env_file: .env
+    image: bitnami/kafka
+    container_name: kafka_create_topic
+    entrypoint: [ "/bin/bash", "-c", "cp /kafka-setup.sh /tmp/kafka-setup.sh && chmod +x /tmp/kafka-setup.sh && /tmp/kafka-setup.sh"]
+    environment:
+      - TOPIC_NAME=${KAFKA_TOPIC}
+      - BOOTSTRAP_SERVER=${KAFKA_HOST}
+      - PARTITIONS=${KAFKA_PARTITIONS}
+      - REPLICATION_FACTOR=${KAFKA_REPLICATION_FACTOR}
+    depends_on:
+      - kafka
+    volumes:
+      - type: bind
+        source: ./kafka/kafka-setup.sh
+        target: /kafka-setup.sh
+  kafka-producer:
+    env_file: .env
+    build:
+      context: ./kafka
+    container_name: kafka_producer
+    depends_on:
+      - kafka
+      - kafka-create-topic
+  spark-consumer:
+    env_file: .env
+    build:
+      context: ./spark-streaming
+    container_name: spark_consumer
+    depends_on:
+      - kafka-producer
+volumes:
+  cassandra-data:

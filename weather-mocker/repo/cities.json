@@ -1,0 +1,373 @@
+{
+    "NYC": {
+      "name": "New York City",
+      "lat": 40.7128,
+      "lon": -74.0060,
+      "timezone": -5,
+      "avg_temp_range": [-5, 30]
+    },
+    "LA": {
+      "name": "Los Angeles",
+      "lat": 34.0522,
+      "lon": -118.2437,
+      "timezone": -8,
+      "avg_temp_range": [10, 35]
+    },
+    "CHI": {
+      "name": "Chicago",
+      "lat": 41.8781,
+      "lon": -87.6298,
+      "timezone": -6,
+      "avg_temp_range": [-10, 30]
+    },
+    "HOU": {
+      "name": "Houston",
+      "lat": 29.7604,
+      "lon": -95.3698,
+      "timezone": -6,
+      "avg_temp_range": [5, 35]
+    },
+    "PHX": {
+      "name": "Phoenix",
+      "lat": 33.4484,
+      "lon": -112.0740,
+      "timezone": -7,
+      "avg_temp_range": [10, 40]
+    },
+    "SFO": {
+      "name": "San Francisco",
+      "lat": 37.7749,
+      "lon": -122.4194,
+      "timezone": -8,
+      "avg_temp_range": [8, 25]
+    },
+    "SEA": {
+      "name": "Seattle",
+      "lat": 47.6062,
+      "lon": -122.3321,
+      "timezone": -8,
+      "avg_temp_range": [3, 20]
+    },
+    "MIA": {
+      "name": "Miami",
+      "lat": 25.7617,
+      "lon": -80.1918,
+      "timezone": -5,
+      "avg_temp_range": [20, 35]
+    },
+    "BOS": {
+      "name": "Boston",
+      "lat": 42.3601,
+      "lon": -71.0589,
+      "timezone": -5,
+      "avg_temp_range": [-5, 25]
+    },
+    "ATL": {
+      "name": "Atlanta",
+      "lat": 33.7490,
+      "lon": -84.3880,
+      "timezone": -5,
+      "avg_temp_range": [0, 30]
+    },
+    "DAL": {
+      "name": "Dallas",
+      "lat": 32.7767,
+      "lon": -96.7970,
+      "timezone": -6,
+      "avg_temp_range": [5, 35]
+    },
+    "DEN": {
+      "name": "Denver",
+      "lat": 39.7392,
+      "lon": -104.9903,
+      "timezone": -7,
+      "avg_temp_range": [-5, 30]
+    },
+    "DET": {
+      "name": "Detroit",
+      "lat": 42.3314,
+      "lon": -83.0458,
+      "timezone": -5,
+      "avg_temp_range": [-5, 25]
+    },
+    "MIN": {
+      "name": "Minneapolis",
+      "lat": 44.9778,
+      "lon": -93.2650,
+      "timezone": -6,
+      "avg_temp_range": [-10, 25]
+    },
+    "PHI": {
+      "name": "Philadelphia",
+      "lat": 39.9526,
+      "lon": -75.1652,
+      "timezone": -5,
+      "avg_temp_range": [-2, 28]
+    },
+    "PHO": {
+      "name": "Portland",
+      "lat": 45.5051,
+      "lon": -122.6750,
+      "timezone": -8,
+      "avg_temp_range": [2, 22]
+    },
+    "STL": {
+      "name": "St. Louis",
+      "lat": 38.6270,
+      "lon": -90.1994,
+      "timezone": -6,
+      "avg_temp_range": [0, 30]
+    },
+    "LV": {
+      "name": "Las Vegas",
+      "lat": 36.1699,
+      "lon": -115.1398,
+      "timezone": -8,
+      "avg_temp_range": [10, 40]
+    },
+    "WAS": {
+      "name": "Washington D.C.",
+      "lat": 38.9072,
+      "lon": -77.0369,
+      "timezone": -5,
+      "avg_temp_range": [0, 28]
+    },
+    "AUS": {
+      "name": "Austin",
+      "lat": 30.2672,
+      "lon": -97.7431,
+      "timezone": -6,
+      "avg_temp_range": [8, 35]
+    },
+    "NOL": {
+      "name": "New Orleans",
+      "lat": 29.9511,
+      "lon": -90.0715,
+      "timezone": -6,
+      "avg_temp_range": [15, 35]
+    },
+    "SD": {
+      "name": "San Diego",
+      "lat": 32.7157,
+      "lon": -117.1611,
+      "timezone": -8,
+      "avg_temp_range": [12, 25]
+    },
+    "RIV": {
+      "name": "Riverside",
+      "lat": 33.9806,
+      "lon": -117.3755,
+      "timezone": -8,
+      "avg_temp_range": [12, 35]
+    },
+    "OKC": {
+      "name": "Oklahoma City",
+      "lat": 35.4676,
+      "lon": -97.5164,
+      "timezone": -6,
+      "avg_temp_range": [5, 35]
+    },
+    "SAC": {
+      "name": "Sacramento",
+      "lat": 38.5816,
+      "lon": -121.4944,
+      "timezone": -8,
+      "avg_temp_range": [5, 30]
+    },
+    "KC": {
+      "name": "Kansas City",
+      "lat": 39.0997,
+      "lon": -94.5786,
+      "timezone": -6,
+      "avg_temp_range": [0, 30]
+    },
+    "CLT": {
+      "name": "Charlotte",
+      "lat": 35.2271,
+      "lon": -80.8431,
+      "timezone": -5,
+      "avg_temp_range": [5, 30]
+    },
+    "IND": {
+      "name": "Indianapolis",
+      "lat": 39.7684,
+      "lon": -86.1581,
+      "timezone": -5,
+      "avg_temp_range": [-5, 28]
+    },
+    "COL": {
+      "name": "Columbus",
+      "lat": 39.9612,
+      "lon": -82.9988,
+      "timezone": -5,
+      "avg_temp_range": [-5, 30]
+    },
+    "JAX": {
+      "name": "Jacksonville",
+      "lat": 30.3322,
+      "lon": -81.6557,
+      "timezone": -5,
+      "avg_temp_range": [12, 35]
+    },
+    "SAN": {
+      "name": "San Antonio",
+      "lat": 29.4241,
+      "lon": -98.4936,
+      "timezone": -6,
+      "avg_temp_range": [10, 35]
+    },
+    "MEM": {
+      "name": "Memphis",
+      "lat": 35.1495,
+      "lon": -90.0490,
+      "timezone": -6,
+      "avg_temp_range": [5, 30]
+    },
+    "MIL": {
+      "name": "Milwaukee",
+      "lat": 43.0389,
+      "lon": -87.9065,
+      "timezone": -6,
+      "avg_temp_range": [-5, 25]
+    },
+    "BAL": {
+      "name": "Baltimore",
+      "lat": 39.2904,
+      "lon": -76.6122,
+      "timezone": -5,
+      "avg_temp_range": [0, 28]
+    },
+    "TUC": {
+      "name": "Tucson",
+      "lat": 32.2226,
+      "lon": -110.9747,
+      "timezone": -7,
+      "avg_temp_range": [15, 35]
+    },
+    "POR": {
+      "name": "Portland",
+      "lat": 45.5051,
+      "lon": -122.6750,
+      "timezone": -8,
+      "avg_temp_range": [2, 22]
+    },
+    "CLE": {
+      "name": "Cleveland",
+      "lat": 41.4993,
+      "lon": -81.6944,
+      "timezone": -5,
+      "avg_temp_range": [-5, 25]
+    },
+    "WIC": {
+      "name": "Wichita",
+      "lat": 37.6872,
+      "lon": -97.3301,
+      "timezone": -6,
+      "avg_temp_range": [0, 30]
+    },
+    "RAL": {
+      "name": "Raleigh",
+      "lat": 35.7796,
+      "lon": -78.6382,
+      "timezone": -5,
+      "avg_temp_range": [5, 30]
+    },
+    "OMA": {
+      "name": "Omaha",
+      "lat": 41.2565,
+      "lon": -95.9345,
+      "timezone": -6,
+      "avg_temp_range": [0, 30]
+    },
+    "MAD": {
+      "name": "Madison",
+      "lat": 43.0731,
+      "lon": -89.4012,
+      "timezone": -6,
+      "avg_temp_range": [-5, 25]
+    },
+    "OKL": {
+      "name": "Oakland",
+      "lat": 37.8044,
+      "lon": -122.2711,
+      "timezone": -8,
+      "avg_temp_range": [8, 22]
+    },
+    "LON": {
+      "name": "London",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "timezone": 0,
+      "avg_temp_range": [2, 22]
+    },
+    "PAR": {
+      "name": "Paris",
+      "lat": 48.8566,
+      "lon": 2.3522,
+      "timezone": 1,
+      "avg_temp_range": [-2, 20]
+    },
+    "BER": {
+      "name": "Berlin",
+      "lat": 52.5200,
+      "lon": 13.4050,
+      "timezone": 1,
+      "avg_temp_range": [-5, 25]
+    },
+    "ROM": {
+      "name": "Rome",
+      "lat": 41.9028,
+      "lon": 12.4964,
+      "timezone": 1,
+      "avg_temp_range": [5, 30]
+    },
+    "MOS": {
+      "name": "Moscow",
+      "lat": 55.7558,
+      "lon": 37.6176,
+      "timezone": 3,
+      "avg_temp_range": [-10, 20]
+    },
+    "IST": {
+      "name": "Istanbul",
+      "lat": 41.0082,
+      "lon": 28.9784,
+      "timezone": 3,
+      "avg_temp_range": [5, 30]
+    },
+    "BEI": {
+      "name": "Beijing",
+      "lat": 39.9042,
+      "lon": 116.4074,
+      "timezone": 8,
+      "avg_temp_range": [-10, 25]
+    },
+    "TOK": {
+      "name": "Tokyo",
+      "lat": 35.6895,
+      "lon": 139.6917,
+      "timezone": 9,
+      "avg_temp_range": [0, 30]
+    },
+    "SEO": {
+      "name": "Seoul",
+      "lat": 37.5665,
+      "lon": 126.9780,
+      "timezone": 9,
+      "avg_temp_range": [-5, 25]
+    },
+    "DEL": {
+      "name": "Delhi",
+      "lat": 28.7041,
+      "lon": 77.1025,
+      "timezone": 5.5,
+      "avg_temp_range": [10, 40]
+    },
+    "KAR": {
+      "name": "Karachi",
+      "lat": 24.8607,
+      "lon": 67.0011,
+      "timezone": 5,
+      "avg_temp_range": [20, 35]
+    }
+  }
