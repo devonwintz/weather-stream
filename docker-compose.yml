@@ -46,7 +46,7 @@ services:
   cassandra-create-keyspace-table:
     env_file: .env
     image: bitnami/cassandra
-    container_name: cassandra_create_keyspace__table
+    container_name: cassandra_create_keyspace_table
     entrypoint: /bin/bash -c "cp /cassandra-init.sh /tmp/cassandra-init.sh && chmod +x /tmp/cassandra-init.sh && /tmp/cassandra-init.sh"
     environment:
       - CASSANDRA_HOST=${CASSANDRA_HOST}
