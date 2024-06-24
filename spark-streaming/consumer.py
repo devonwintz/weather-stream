@@ -22,6 +22,10 @@ KAFKA_BOOTSTRAP_SERVER = os.environ.get('KAFKA_HOST')
 KAFKA_OFFSET = os.environ.get('AUTO_OFFSET_RESET')
 DETAILED_SUMMARY = os.environ.get('DETAILED_SUMMARY')
 FETCH_INTERVAL_SECONDS = int(os.environ.get('FETCH_INTERVAL_SECONDS'))
+CASSANDRA_USER = os.environ.get('CASSANDRA_USER')
+CASSANDRA_PW = os.environ.get('CASSANDRA_PW')
+CASSANDRA_KEYSPACE = os.environ.get('CASSANDRA_KEYSPACE')
+CASSANDRA_TABLE = os.environ.get('CASSANDRA_TABLE')
 WINDOW_TIME = FETCH_INTERVAL_SECONDS
 
 
@@ -37,11 +41,20 @@ def create_spark_session(app_name):
     """Create a Spark session."""
     return SparkSession.builder \
             .appName(app_name) \
+            .config("spark.cassandra.connection.host", os.environ.get('CASSANDRA_HOST', '127.0.0.1')) \
             .config("spark.streaming.stopGracefullyOnShutdown", True) \
+            .config("spark.cassandra.auth.username", CASSANDRA_USER) \
+            .config("spark.cassandra.auth.password", CASSANDRA_PW) \
             .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0") \
-            .config("spark.sql.shuffle.partitions", 4) \
             .getOrCreate()
 
+def write_to_cassandra(df):
+    """Write data to a Cassandra table."""
+    df.write \
+      .format("org.apache.spark.sql.cassandra") \
+      .options(table=CASSANDRA_TABLE, keyspace=CASSANDRA_KEYSPACE) \
+      .mode("append") \
+      .save()
 
 def parse_weather_data(df):
     """Parse weather data from Kafka messages."""
@@ -163,10 +176,18 @@ if __name__ == '__main__':
         )
 
     # Write results to console
-    query = windowed_df.writeStream \
+    console_query = windowed_df.writeStream \
         .outputMode("append") \
         .format("console") \
         .option("truncate", "false") \
         .start()
 
-    query.awaitTermination()
+    # Write results to Cassandra
+    cassandra_query = windowed_df.writeStream \
+        .outputMode("append") \
+        .foreachBatch(lambda batch_df, batch_id: write_to_cassandra(batch_df)) \
+        .start()
+
+    # Await termination for both queries
+    console_query.awaitTermination()
+    cassandra_query.awaitTermination()
