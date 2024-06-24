@@ -28,19 +28,41 @@ services:
       - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:${KAFKA_PORT}
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST}
       - KAFKA_CFG_ZOOKEEPER_CONNECT=${ZOOKEEPER_HOST}
-  # cassandra-node1:
-  #   env_file: .env
-  #   image: bitnami/cassandra
-  #   container_name: cassandra_node1
-  #   ports:
-  #     - "${CASSANDRA_PORT}:${CASSANDRA_PORT}"
-  #   volumes:
-  #     - cassandra-data:/bitnami/cassandra
-  #   environment:
-  #     - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME}
-  #     - CASSANDRA_DATACENTER=${CASSANDRA_DATACENTER}
-  #     - CASSANDRA_USER=${CASSANDRA_USER}
-  #     - CASSANDRA_PASSWORD=${CASSANDRA_PW}
+  cassandra-node1:
+    env_file: .env
+    image: bitnami/cassandra
+    container_name: cassandra_node1
+    ports:
+      - "${CASSANDRA_PORT}:${CASSANDRA_PORT}"
+    volumes:
+      - cassandra-data:/bitnami/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME}
+      - CASSANDRA_DATACENTER=${CASSANDRA_DATACENTER}
+      - CASSANDRA_SEEDS=cassandra-node1
+      - CASSANDRA_LISTEN_ADDRESS=auto
+      - CASSANDRA_USER=${CASSANDRA_USER}
+      - CASSANDRA_PASSWORD=${CASSANDRA_PW}
+  cassandra-create-ks-topic:
+    env_file: .env
+    image: bitnami/cassandra
+    container_name: cassandra_create_ks_topic
+    entrypoint: /bin/bash -c "cp /cassandra-init.sh /tmp/cassandra-init.sh && chmod +x /tmp/cassandra-init.sh && /tmp/cassandra-init.sh"
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - CASSANDRA_PORT=${CASSANDRA_PORT}
+      - CASSANDRA_USER=${CASSANDRA_USER}
+      - CASSANDRA_PW=${CASSANDRA_PW}
+      - CASSANDRA_KEYSPACE=${CASSANDRA_KEYSPACE}
+      - CASSANDRA_TABLE=${CASSANDRA_TABLE}
+      - CASSANDRA_RETRY=${CASSANDRA_RETRY}
+      - CASSANDRA_RETRY_INTERVAL_SECONDS=${CASSANDRA_RETRY_INTERVAL_SECONDS}
+    volumes:
+      - type: bind
+        source: ./cassandra/cassandra-init.sh
+        target: /cassandra-init.sh
+    depends_on:
+      - cassandra-node1
   kafka-create-topic:
     env_file: .env
     image: bitnami/kafka
