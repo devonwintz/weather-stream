@@ -24,7 +24,7 @@ done
 echo "Kafka is running...creating topic..."
 
 # Check if the topic already exists
-/opt/bitnami/kafka/bin/kafka-topics.sh --describe --topic $TOPIC_NAME --bootstrap-server $BOOTSTRAP_SERVER > /dev/null 2>&1
+/opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server $BOOTSTRAP_SERVER | grep -w $TOPIC_NAME > /dev/null 2>&1
 EXIST_STATUS=$?
 
 if [ $EXIST_STATUS -eq 0 ]; then
