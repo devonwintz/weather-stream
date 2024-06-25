@@ -23,10 +23,11 @@ KAFKA_OFFSET = os.environ.get('AUTO_OFFSET_RESET')
 DETAILED_SUMMARY = os.environ.get('DETAILED_SUMMARY')
 FETCH_INTERVAL_SECONDS = int(os.environ.get('FETCH_INTERVAL_SECONDS'))
 CASSANDRA_USER = os.environ.get('CASSANDRA_USER')
+CASSANDRA_HOST = os.environ.get('CASSANDRA_HOST', '127.0.0.1')
 CASSANDRA_PW = os.environ.get('CASSANDRA_PW')
 CASSANDRA_KEYSPACE = os.environ.get('CASSANDRA_KEYSPACE')
 CASSANDRA_TABLE = os.environ.get('CASSANDRA_TABLE')
-WINDOW_TIME = FETCH_INTERVAL_SECONDS
+WINDOW_TIME = int(os.environ.get('WINDOW_INTERVAL_SECONDS'))
 
 
 
@@ -41,20 +42,25 @@ def create_spark_session(app_name):
     """Create a Spark session."""
     return SparkSession.builder \
             .appName(app_name) \
-            .config("spark.cassandra.connection.host", os.environ.get('CASSANDRA_HOST', '127.0.0.1')) \
+            .config("spark.cassandra.connection.host", CASSANDRA_HOST) \
             .config("spark.streaming.stopGracefullyOnShutdown", True) \
+            .config("spark.cassandra.output.consistency.level", "ONE") \
             .config("spark.cassandra.auth.username", CASSANDRA_USER) \
             .config("spark.cassandra.auth.password", CASSANDRA_PW) \
-            .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0") \
+            .config("spark.jars.packages",
+                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0,"
+                "com.datastax.spark:spark-cassandra-connector_2.12:3.3.0") \
+            .config("spark.sql.extensions", "com.datastax.spark.connector.CassandraSparkExtensions") \
             .getOrCreate()
 
 def write_to_cassandra(df):
     """Write data to a Cassandra table."""
     df.write \
-      .format("org.apache.spark.sql.cassandra") \
-      .options(table=CASSANDRA_TABLE, keyspace=CASSANDRA_KEYSPACE) \
-      .mode("append") \
-      .save()
+        .format("org.apache.spark.sql.cassandra") \
+        .mode("append") \
+        .options(table=CASSANDRA_TABLE, keyspace=CASSANDRA_KEYSPACE) \
+        .save()
+
 
 def parse_weather_data(df):
     """Parse weather data from Kafka messages."""
@@ -162,19 +168,32 @@ if __name__ == '__main__':
     windowed_df = flattened_df \
         .withWatermark("EventTime", f"{WINDOW_TIME * 2} seconds") \
         .groupBy(
-            window(col("EventTime"), f"{WINDOW_TIME} seconds"),
-            col("CityCode")
+            window(col("EventTime"), f"{WINDOW_TIME} seconds").alias("time_window"),
+            col("CityCode").alias("city_code"),
+            col("CityName").alias("city_name")
         ) \
         .agg(
-            avg("Humidity").alias("AvgHumidity"),
-            avg("WindSpeedMetric").alias("AvgWindSpeedMetric"),
-            avg("WindSpeedImperial").alias("AvgWindSpeedImperial"),
-            avg("CurrentPrecipitationMetric").alias("AvgPrecipitationMetric"),
-            avg("CurrentPrecipitationImperial").alias("AvgPrecipitationImperial"),
-            avg("CurrentTemperatureMetric").alias("AvgTemperatureMetric"),
-            avg("CurrentTemperatureImperial").alias("AvgTemperatureImperial")
-        )
-
+            avg("Humidity").alias("avg_humidity"),
+            avg("WindSpeedMetric").alias("avg_wind_speed_metric"),
+            avg("WindSpeedImperial").alias("avg_wind_speed_imperial"),
+            avg("CurrentPrecipitationMetric").alias("avg_precipitation_metric"),
+            avg("CurrentPrecipitationImperial").alias("avg_precipitation_imperial"),
+            avg("CurrentTemperatureMetric").alias("avg_temperature_metric"),
+            avg("CurrentTemperatureImperial").alias("avg_temperature_imperial")
+        ) \
+        .withColumn("event_time", col("time_window.start")) \
+            .select(
+                col("event_time"),
+                col("city_code"),
+                col("city_name"),
+                col("avg_humidity"),
+                col("avg_wind_speed_metric"),
+                col("avg_wind_speed_imperial"),
+                col("avg_precipitation_metric"),
+                col("avg_precipitation_imperial"),
+                col("avg_temperature_metric"),
+                col("avg_temperature_imperial")
+            )
     # Write results to console
     console_query = windowed_df.writeStream \
         .outputMode("append") \
