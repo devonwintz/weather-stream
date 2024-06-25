@@ -28,6 +28,24 @@ services:
       - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:${KAFKA_PORT}
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_HOST}
       - KAFKA_CFG_ZOOKEEPER_CONNECT=${ZOOKEEPER_HOST}
+    kafka-create-topic:
+      env_file: .env
+      image: bitnami/kafka
+      container_name: kafka_create_topic
+      entrypoint: [ "/bin/bash", "-c", "cp /kafka-setup.sh /tmp/kafka-setup.sh && chmod +x /tmp/kafka-setup.sh && /tmp/kafka-setup.sh"]
+      environment:
+        - TOPIC_NAME=${KAFKA_TOPIC}
+        - BOOTSTRAP_SERVER=${KAFKA_HOST}
+        - PARTITIONS=${KAFKA_PARTITIONS}
+        - KAFKA_MAX_RETRY=${KAFKA_MAX_RETRY}
+        - KAFKA_RETRY_INTERVAL_SECONDS=${KAFKA_RETRY_INTERVAL_SECONDS}
+        - REPLICATION_FACTOR=${KAFKA_REPLICATION_FACTOR}
+      depends_on:
+        - kafka
+      volumes:
+        - type: bind
+          source: ./kafka/kafka-setup.sh
+          target: /kafka-setup.sh
   cassandra-node1:
     env_file: .env
     image: bitnami/cassandra
@@ -63,24 +81,6 @@ services:
         target: /cassandra-init.sh
     depends_on:
       - cassandra-node1
-  kafka-create-topic:
-    env_file: .env
-    image: bitnami/kafka
-    container_name: kafka_create_topic
-    entrypoint: [ "/bin/bash", "-c", "cp /kafka-setup.sh /tmp/kafka-setup.sh && chmod +x /tmp/kafka-setup.sh && /tmp/kafka-setup.sh"]
-    environment:
-      - TOPIC_NAME=${KAFKA_TOPIC}
-      - BOOTSTRAP_SERVER=${KAFKA_HOST}
-      - PARTITIONS=${KAFKA_PARTITIONS}
-      - KAFKA_MAX_RETRY=${KAFKA_MAX_RETRY}
-      - KAFKA_RETRY_INTERVAL_SECONDS=${KAFKA_RETRY_INTERVAL_SECONDS}
-      - REPLICATION_FACTOR=${KAFKA_REPLICATION_FACTOR}
-    depends_on:
-      - kafka
-    volumes:
-      - type: bind
-        source: ./kafka/kafka-setup.sh
-        target: /kafka-setup.sh
   kafka-producer:
     env_file: .env
     build:
