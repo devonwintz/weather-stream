@@ -27,7 +27,7 @@ CASSANDRA_HOST = os.environ.get('CASSANDRA_HOST', '127.0.0.1')
 CASSANDRA_PW = os.environ.get('CASSANDRA_PW')
 CASSANDRA_KEYSPACE = os.environ.get('CASSANDRA_KEYSPACE')
 CASSANDRA_TABLE = os.environ.get('CASSANDRA_TABLE')
-WINDOW_TIME = (int(os.environ.get('WINDOW_INTERVAL_SECONDS')))/60
+WINDOW_TIME = (int(os.environ.get('WINDOW_INTERVAL_SECONDS')))//60
 
 
 
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     windowed_df = flattened_df \
         .withWatermark("EventTime", f"{WINDOW_TIME + 1} minutes") \
         .groupBy(
-            window(col("EventTime"), f"{WINDOW_TIME} mintes").alias("time_window"),
+            window(col("EventTime"), f"{WINDOW_TIME} minutes").alias("time_window"),
             col("CityCode").alias("city_code"),
             col("CityName").alias("city_name")
         ) \
