@@ -1,21 +1,21 @@
 # Weather Data Pipeline
 
-<center>
+<<div align="center">>
 
 ![](./assets/images/WeatherStream.png)
 
-</center>
+</div>
 
 ## Overview
 
 This project implements a weather data pipeline that generates, ingests, processes, stores, and visualizes weather data in real-time. It uses Flask for data generation, Kafka for data ingestion, Spark for processing, Cassandra for storage, and Grafana for visualization.
 
 ## Directory Structure
-<center>
+<div align="center">
 
 ![](./assets/images/Project-Directory-Structure.PNG)
 
-</center>
+</div>
 
 ## Components
 
@@ -65,8 +65,9 @@ The entire stack is managed using Docker Compose, defined in `docker-compose.yml
 
 ## Running the Pipeline
 
-To run the Docker pipeline, follow these steps from the root directory:
+To run the Docker pipeline, run the following two commands from the root directory:
 
 1. Make the `run.sh` script executable:
    ```sh
-   chmod +x run.sh
+   $ chmod +x run.sh
+   $ ./run.sh
