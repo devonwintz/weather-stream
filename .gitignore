@@ -6,7 +6,7 @@ env/
 .idea/
 
 # Environment Files
-.env
+# .env
 .env.local
 .env.*.local
 .env.test
