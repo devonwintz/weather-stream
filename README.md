@@ -1,6 +1,6 @@
 # Weather Data Pipeline
 
-<<div align="center">>
+<div align="center">
 
 ![](./assets/images/WeatherStream.png)
 
