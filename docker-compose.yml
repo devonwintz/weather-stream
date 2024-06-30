@@ -9,6 +9,14 @@ services:
     ports:
       - "${WEATHER_MOCKER_PORT}:${WEATHER_MOCKER_PORT}"
     restart: on-failure
+  weather_data:
+    env_file: .env
+    build:
+      context: ./weather-data
+    container_name: weather_data
+    ports:
+      - "${WEATHER_DATA_PORT}:${WEATHER_DATA_PORT}"
+    restart: on-failure
   zookeeper:
     env_file: .env
     image: bitnami/zookeeper

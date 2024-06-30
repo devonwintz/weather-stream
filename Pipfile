@@ -11,6 +11,7 @@ asyncio = "*"
 aiohttp = "*"
 pyspark = "*"
 python-dotenv = "*"
+cassandra-driver = "*"
 
 [dev-packages]
 
