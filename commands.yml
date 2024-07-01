@@ -1,0 +1,16 @@
+Interacting with Cassandra DB:
+  Connect to the container cqlsh: docker-compose exec cassandra-node1 cqlsh cassandra-node1 -u cassandra -p cassandra
+  Show data records: SELECT * FROM weather_keyspace.weather_data;
+  Delete records: DELETE FROM weather_keyspace.weather_data WHERE city_code = 'NYC';
+  Remove table: DROP TABLE weather_keyspace.weather_data;
+  Remove keyspace: DROP KEYSPACE weather_keyspace;
+
+
+Interacting with Grafana:
+  Connect to the container: docker exec -it grafana /bin/bash
+  List plugins: grafana cli plugins ls
+  Install plugin: grafana cli plugins install hadesarchitect-cassandra-datasource
+  Get API Key: curl -X POST   -H "Content-Type: application/json"   -H "Authorization: Basic $(echo -n 'user:password' | base64)"   -d '{"name": "API Key", "role": "Admin"}'   http://localhost:3000/api/auth/keys
+
+
+Turn shell script into executable: chmod +x run.sh
